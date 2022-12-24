@@ -14,9 +14,8 @@ class BankAccountController(var bankAccountService: BankAccountService) {
     fun addBankAccount(@RequestBody bankAccount: BankAccount) : ResponseEntity<BankAccount> {
         return ResponseEntity.ok(bankAccountService.addBankAccount(bankAccount))
     }
-
-    @GetMapping
-    fun getBankAccount(@RequestParam id:Long) : ResponseEntity<BankAccount> {
+    @GetMapping("/{id}")
+    fun getBankAccount(@PathVariable id:Long) : ResponseEntity<BankAccount> {
         var bankAccount: BankAccount? = bankAccountService.getBankAccount(id);
         if (bankAccount != null) {
             return ResponseEntity(bankAccount, HttpStatus.OK)
