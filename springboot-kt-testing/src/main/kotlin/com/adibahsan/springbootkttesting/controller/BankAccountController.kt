@@ -11,16 +11,24 @@ import org.springframework.web.bind.annotation.*
 class BankAccountController(var bankAccountService: BankAccountService) {
 
     @PostMapping
-    fun addBankAccount(@RequestBody bankAccount: BankAccount) : ResponseEntity<BankAccount> {
+    fun addBankAccount(@RequestBody bankAccount: BankAccount): ResponseEntity<BankAccount> {
         return ResponseEntity.ok(bankAccountService.addBankAccount(bankAccount))
     }
+
     @GetMapping("/{id}")
-    fun getBankAccount(@PathVariable id:Long) : ResponseEntity<BankAccount> {
+    fun getBankAccount(@PathVariable id: Long): ResponseEntity<BankAccount> {
         var bankAccount: BankAccount? = bankAccountService.getBankAccount(id);
-        if (bankAccount != null) {
-            return ResponseEntity(bankAccount, HttpStatus.OK)
+        return if (bankAccount != null) {
+            ResponseEntity(bankAccount, HttpStatus.OK)
         } else {
-            return ResponseEntity(HttpStatus.BAD_REQUEST)
+            ResponseEntity(HttpStatus.BAD_REQUEST)
         }
+    }
+
+    @GetMapping()
+    fun getAllBankAccounts(): ResponseEntity<List<BankAccount>> {
+        bankAccountService.getAllBankAccounts()?.let {
+            return ResponseEntity(it, HttpStatus.OK)
+        } ?: return ResponseEntity(HttpStatus.BAD_REQUEST)
     }
 }

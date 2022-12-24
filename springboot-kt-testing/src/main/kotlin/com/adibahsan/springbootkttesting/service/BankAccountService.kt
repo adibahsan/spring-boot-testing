@@ -13,5 +13,9 @@ class BankAccountService(var bankAccountRepository: BankAccountRepository) {
     fun getBankAccount(id: Long): BankAccount? {
         return bankAccountRepository.findByIdOrNull(id)
     }
-    
+
+    fun getAllBankAccounts(): List<BankAccount>?{
+        return bankAccountRepository.findAll()?.toList()
+    }
+
 }
