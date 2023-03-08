@@ -68,4 +68,26 @@ class EmployeeRepositoryTest {
     }
 
 
+    @DisplayName("get user from db after saving")
+    @Test
+    void getUserAfterSaving() {
+
+        //given (precondition or setup)
+        Employee employee = Employee.builder()
+                .firstName("adib")
+                .lastName("chowdhury")
+                .email("email@ecom.com")
+                .build();
+
+        //when (action or behavior that we are testing
+        employeeRepository.save(employee);
+
+        Employee retrievedEmployee = employeeRepository.findById(employee.getId()).get();
+
+        //verify the output
+        assertThat(retrievedEmployee.getId()).isNotNull();
+        assertThat(retrievedEmployee.getEmail()).isEqualTo("email@ecom.com");
+    }
+
+
 }
