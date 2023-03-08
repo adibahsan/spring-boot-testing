@@ -90,4 +90,26 @@ class EmployeeRepositoryTest {
     }
 
 
+    @DisplayName("Find Employees By Email")
+    @Test
+    void findEmployeeByEmail() {
+
+        //given (precondition or setup)
+        Employee employee = Employee.builder()
+                .firstName("adib")
+                .lastName("chowdhury")
+                .email("email@ecom.com")
+                .build();
+
+        //when (action or behavior that we are testing
+
+        employeeRepository.save(employee);
+
+        Employee savedEmployee = employeeRepository.findEmployeeByEmail(employee.getEmail());
+
+        //verify the output
+        assertThat(savedEmployee.getEmail()).isEqualTo("email@ecom.com");
+    }
+
+
 }
