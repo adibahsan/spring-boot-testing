@@ -1,9 +1,6 @@
 package com.adibahan.springtester.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.lang.annotation.Documented;
@@ -12,6 +9,7 @@ import java.lang.annotation.Documented;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 
 @Entity
 @Table(name = "employees")
