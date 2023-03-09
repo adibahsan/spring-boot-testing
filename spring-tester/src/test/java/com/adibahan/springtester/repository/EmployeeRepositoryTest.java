@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Optional;
 
 @DataJpaTest
 class EmployeeRepositoryTest {
@@ -21,11 +22,7 @@ class EmployeeRepositoryTest {
     @Test
     void saveAnObjectToTheRepo() {
         //given (getting the given info)
-        Employee employee = Employee.builder()
-                .firstName("adib")
-                .lastName("chowdhury")
-                .email("email@ecom.com")
-                .build();
+        Employee employee = Employee.builder().firstName("adib").lastName("chowdhury").email("email@ecom.com").build();
         //when (running the testing)
         Employee savedEmployee = employeeRepository.save(employee);
 
@@ -41,21 +38,9 @@ class EmployeeRepositoryTest {
     void savingListOfUsers() {
 
         //given (precondition or setup)
-        Employee employee = Employee.builder()
-                .firstName("adib")
-                .lastName("chowdhury")
-                .email("email@ecom.com")
-                .build();
-        Employee employee2 = Employee.builder()
-                .firstName("adib")
-                .lastName("chowdhury")
-                .email("email2@ecom.com")
-                .build();
-        Employee employee3 = Employee.builder()
-                .firstName("adib")
-                .lastName("chowdhury")
-                .email("email3@ecom.com")
-                .build();
+        Employee employee = Employee.builder().firstName("adib").lastName("chowdhury").email("email@ecom.com").build();
+        Employee employee2 = Employee.builder().firstName("adib").lastName("chowdhury").email("email2@ecom.com").build();
+        Employee employee3 = Employee.builder().firstName("adib").lastName("chowdhury").email("email3@ecom.com").build();
 
         List<Employee> employeeList = List.of(employee, employee2, employee3);
 
@@ -73,11 +58,7 @@ class EmployeeRepositoryTest {
     void getUserAfterSaving() {
 
         //given (precondition or setup)
-        Employee employee = Employee.builder()
-                .firstName("adib")
-                .lastName("chowdhury")
-                .email("email@ecom.com")
-                .build();
+        Employee employee = Employee.builder().firstName("adib").lastName("chowdhury").email("email@ecom.com").build();
 
         //when (action or behavior that we are testing
         employeeRepository.save(employee);
@@ -95,11 +76,7 @@ class EmployeeRepositoryTest {
     void findEmployeeByEmail() {
 
         //given (precondition or setup)
-        Employee employee = Employee.builder()
-                .firstName("adib")
-                .lastName("chowdhury")
-                .email("email@ecom.com")
-                .build();
+        Employee employee = Employee.builder().firstName("adib").lastName("chowdhury").email("email@ecom.com").build();
 
         //when (action or behavior that we are testing
 
@@ -109,6 +86,40 @@ class EmployeeRepositoryTest {
 
         //verify the output
         assertThat(savedEmployee.getEmail()).isEqualTo("email@ecom.com");
+    }
+
+    @DisplayName("Update Users' Info")
+    @Test
+    void updateUserInfo() {
+
+        //given (precondition or setup)
+        Employee employee = Employee.builder().firstName("adib").lastName("chowdhury").email("email@ecom.com").build();
+
+        //when (action or behavior that we are testing
+        Employee savedEmployee = employeeRepository.save(employee);
+        savedEmployee.setFirstName("Sakib");
+
+        Employee updatedEmployee = employeeRepository.save(savedEmployee);
+
+        //verify the output
+        assertThat(updatedEmployee.getFirstName()).isEqualTo("Sakib");
+    }
+
+    @DisplayName("Delete Employee")
+    @Test
+    void deleteEmployeeInfo() {
+
+        //given (precondition or setup)
+        Employee employee = Employee.builder().firstName("adib").lastName("chowdhury").email("email@ecom.com").build();
+
+        //when (action or behavior that we are testing
+        Employee savedEmployee = employeeRepository.save(employee);
+        employeeRepository.delete(employee);
+
+        Optional<Employee> deleted = employeeRepository.findById(employee.getId());
+
+        //verify the output
+        assertThat(deleted).isEmpty();
     }
 
 
